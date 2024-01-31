@@ -1,5 +1,8 @@
 # SingleSignOn Oauth Application
 
+> **Disclaimer:** Velena is an imaginary name. It is not an entity or a company. It's a placeholder name.
+
+
 npm install
 
 docker-compose up -d
