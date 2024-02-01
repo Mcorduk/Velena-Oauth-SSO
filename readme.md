@@ -2,7 +2,6 @@
 
 > **Disclaimer:** Velena is an imaginary name. It is not an entity or a company. It's a placeholder name.
 
-
 npm install
 
 docker-compose up -d
@@ -19,7 +18,7 @@ Figuring out who people are is hard on the internet. It's pretty tough to keep t
 
     Now that Google said it was okay and gave you the thumbs up, you can now tell Google that you're cool with letting them in if they're cool with it. Google says 'okay' tells the person what information Google is going to tell you, and then gives them a temporary key (passing the auth code for a web token).
 
-oıkThis key is now good for whatever you set it up to be good for (at the registration of your app) and works for those approved parts of Google as well. Google told you that person is who they say they are and they're good at knowing these types of things.
+    This key is now good for whatever you set it up to be good for (at the registration of your     app) and works for those approved parts of Google as well. Google told you that person is who   they say they are and they're good at knowing these types of things.
 
 [OAuth 2.0 and OpenID Connect (Video)](https://www.youtube.com/watch?v=996OiexHze0)
 
@@ -36,9 +35,28 @@ in the authorization request. The value of state should be checked on the callba
 to ensure it matches the one sent in the authorization request, preventing CSRF attacks.
 It's used in OAuth 2.0
 
+Fixing Issues:
 
-Fixing Issues: 
-
-Stop ports that are already using: 
+Stop ports that are already using:
 sudo lsof -i :27017
 sudo lsof -i :6379
+
+## Express Middlewares Analogy
+
+Imagine a linear sequence of rooms, with a guard inside each one. A person enters the first room wanting to reach the last room to do something and come back. A middleware is just one room in this chain. Each guard has the power to let you pass to the following room, to block you and directly send you back, can remove your coat, can put an hat on you, can write on the wall that you came, can let you wait and call someone to check your documents, while you come back he can write what you got or he can force you to drop it or to add something more… in general he has total control on each person that passes thought his room, both going-in and going-out. So first room has max control, because it came first.
+
+Each room can have also a doctor. So if anything bad happens to you in the following rooms, you get sent straight to the doctor to have you checked, and if he can cure you, he will and send you back nice and clean, or maybe just patched up, otherwise he will send you to an upper doctor if there’s one, if not you end up bleeding on exit.
+
+Now the person when enters is the request, when he leaves is the response.
+
+Middlewares are a nice way to process requests in a chain way, while isolating the responsibility (the code) to specific things in limited areas to avoid spreading the same logic in multiple parts of your application.
+
+## What is password hashing?
+
+Transforming a user's plain text password into a scrambled, unreadable string of characters called a "hash" using a mathematical function.
+
+1- User enters password: When you create an account or log in, you enter your password.
+2- Hashing with salt: The server applies a hashing algorithm (e.g., bcrypt, Argon2) and a 3- 3- unique random string called a "salt" to the password.
+4- Storing the hash: The resulting hash, not the original password, is stored in the database.
+5- Verification: During login, the user enters their password again. The server hashes it with the same salt and compares it to the stored hash.
+6- Matching hash: If the hashes match, the user is authenticated. If not, access is denied.
