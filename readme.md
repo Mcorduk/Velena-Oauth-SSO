@@ -41,7 +41,7 @@ Stop ports that are already using:
 sudo lsof -i :27017
 sudo lsof -i :6379
 
-## Express Middlewares Analogy
+## Express Middlewares Analogy
 
 Imagine a linear sequence of rooms, with a guard inside each one. A person enters the first room wanting to reach the last room to do something and come back. A middleware is just one room in this chain. Each guard has the power to let you pass to the following room, to block you and directly send you back, can remove your coat, can put an hat on you, can write on the wall that you came, can let you wait and call someone to check your documents, while you come back he can write what you got or he can force you to drop it or to add something more… in general he has total control on each person that passes thought his room, both going-in and going-out. So first room has max control, because it came first.
 

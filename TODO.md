@@ -2,18 +2,21 @@
 
 ## High Priority~
 
-- [ ]
+- [ ] Understand CORS
 
 ## Medium Priority
 
-- [TODO] Add connection rate limits
-- [TODO] Use helmet
+- [TODO] Do you need Views? delete ejs, middlewares for static files etc.
 
 ## Low Priority
 
 - [ ] Add response-time
+- [ ] Check if need to remove morgan
 
 ## General
+
+- [ ] Consider more granular timeouts: If specific routes or API
+      endpoints have known longer response times, apply timeouts selectively.
 
 ## Optional
 
