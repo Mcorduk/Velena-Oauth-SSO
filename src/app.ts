@@ -6,7 +6,6 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import timeout from 'connect-timeout';
-import mongoose from 'mongoose';
 import connectToMongoDB from './config/db/mongodb'; // Adjust the path accordingly
 
 import indexRouter from './api/routes/index';
@@ -26,16 +25,8 @@ connectToMongoDB()
 
 // Security Middleware
 app.use(helmet()); // Basic security headers
-
-// Cross-Origin Resource Sharing (CORS)
-app.use(
-  cors({
-    // Adjust origins, methods, and headers based on your requirements
-    origin: ['http://localhost:3000'], // Example: Allow requests from specific origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  }),
-);
-
+// FIXME Do I work as intended?
+app.use(cors());
 // Rate Limiting
 app.use(
   rateLimit({
@@ -46,10 +37,8 @@ app.use(
     message: 'Too many requests, please try again later',
   }),
 );
-
 // Compression
 app.use(compression());
-
 // HTTP Request Timeout
 app.use(timeout('30s')); // Set a 30-second timeout
 
@@ -72,8 +61,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // error handler
-//you are not using next, why add it? Express tracks middleware types by the number of arguments they take,
-//In this case, error handling middleware = takes four arguments
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
