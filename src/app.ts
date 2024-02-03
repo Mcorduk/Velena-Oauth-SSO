@@ -4,8 +4,8 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
+import indexRouter from './api/routes/index';
+import usersRouter from './api/routes/users';
 
 const app = express();
 
@@ -13,12 +13,13 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
-
+app.use(logger('dev')); // Loggin middleware
+app.use(express.json()); // ??
+app.use(express.urlencoded({ extended: false })); // ??
+app.use(cookieParser()); // parses cookies
+// Why use path? because otherwise it's not cross-platform. Mac and Linux => /public, on windows \public
+app.use(express.static(path.join(__dirname, '../public'))); // sends static files such as images, js, css
+// routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -28,6 +29,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // error handler
+//you are not using next, why add it? Express tracks middleware types by the number of arguments they take,
+//In this case, error handling middleware = takes four arguments
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
