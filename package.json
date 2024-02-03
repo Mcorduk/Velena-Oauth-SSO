@@ -1,5 +1,7 @@
 {
   "name": "velena-oauth-sso",
+  "author": "Muhammet CORDUK",
+  "description": "A SingSign on oauth2 authentication server.",
   "version": "0.0.0",
   "private": true,
   "scripts": {
