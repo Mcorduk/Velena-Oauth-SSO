@@ -17,6 +17,7 @@
 
 - [ ] Consider more granular timeouts: If specific routes or API
       endpoints have known longer response times, apply timeouts selectively.
+- [ ] Understand pino a little bit better
 
 ## Optional
 

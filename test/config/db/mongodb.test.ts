@@ -12,13 +12,19 @@ describe('insert', () => {
     await mongoose.connection.close();
   });
 
-  it('should insert a doc into collection', async () => {
+  it('should connect to MongoDB successfully', async () => {
+    const connection = mongoose.connection;
+    expect(connection.readyState).toBe(1); // 1 indicates connected
+  });
+
+  it('should insert a doc into collection and find it by ID', async () => {
     const users = mongoose.connection.collection('users');
 
-    const mockUser: { name: string } = { name: 'John' };
-    await users.insertOne(mockUser);
+    const mockUser: { date: Date } = { date: new Date() };
+    const insertedUser = await users.insertOne(mockUser);
+    const insertedUserId = insertedUser.insertedId;
 
-    const insertedUser = await users.findOne({ name: 'John' });
-    expect(insertedUser).toEqual(mockUser);
+    const foundUser = await users.findOne({ _id: insertedUserId });
+    expect(foundUser).toEqual(mockUser);
   });
 });
