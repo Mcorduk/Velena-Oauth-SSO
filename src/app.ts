@@ -1,24 +1,67 @@
 import createError, { HttpError } from 'http-errors';
 import express, { Response, Request, NextFunction } from 'express';
-import path from 'path';
-import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import helmet from 'helmet';
+import cors from 'cors';
+import rateLimit from 'express-rate-limit';
+import compression from 'compression';
+import timeout from 'connect-timeout';
+import mongoose from 'mongoose';
+import connectToMongoDB from './config/db/mongodb'; // Adjust the path accordingly
 
 import indexRouter from './api/routes/index';
 import usersRouter from './api/routes/users';
 
 const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// FIXME make me async await
+connectToMongoDB()
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1); // Exit the process if MongoDB connection fails
+  });
 
+// Security Middleware
+app.use(helmet()); // Basic security headers
+
+// Cross-Origin Resource Sharing (CORS)
+app.use(
+  cors({
+    // Adjust origins, methods, and headers based on your requirements
+    origin: ['http://localhost:3000'], // Example: Allow requests from specific origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  }),
+);
+
+// Rate Limiting
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Allow 100 requests per window
+    standardHeaders: true, // Use standard rate limiting headers
+    legacyHeaders: false, // Disable deprecated headers
+    message: 'Too many requests, please try again later',
+  }),
+);
+
+// Compression
+app.use(compression());
+
+// HTTP Request Timeout
+app.use(timeout('30s')); // Set a 30-second timeout
+
+// view engine setup
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
+
+app.use(express.json()); // Parse JSON data first
+app.use(express.urlencoded({ extended: false })); // Parse URL-encoded data if JSON parsing fails
 app.use(logger('dev')); // Loggin middleware
-app.use(express.json()); // ??
-app.use(express.urlencoded({ extended: false })); // ??
-app.use(cookieParser()); // parses cookies
 // Why use path? because otherwise it's not cross-platform. Mac and Linux => /public, on windows \public
-app.use(express.static(path.join(__dirname, '../public'))); // sends static files such as images, js, css
+// app.use(express.static(path.join(__dirname, '../public'))); // sends static files such as images, js, css
 // routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

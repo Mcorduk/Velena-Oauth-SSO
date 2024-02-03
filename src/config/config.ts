@@ -18,7 +18,7 @@ export const config = {
   REDIS_URL: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
 
   // Application-specific configuration properties
-  DATABASE_URL: process.env.DATABASE_URL,
+  DATABASE_URL: process.env.MONGO_DB_URL,
   NODEMAILER_HOST: process.env.NODEMAILER_HOST || 'localhost',
   NODEMAILER_PORT: process.env.NODEMAILER_PORT || 25,
   NODEMAILER_USER: process.env.NODEMAILER_USER || undefined,

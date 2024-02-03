@@ -3,7 +3,7 @@ import logger from '../log';
 
 const log = logger('models');
 
-export async function connectToMongoDB(): Promise<Mongoose> {
+async function connectToMongoDB(): Promise<Mongoose> {
   try {
     const mongoUrl: string = process.env.MONGO_DB_URL || '';
 
@@ -38,3 +38,5 @@ export async function connectToMongoDB(): Promise<Mongoose> {
     }
   }
 }
+
+export default connectToMongoDB;
