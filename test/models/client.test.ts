@@ -42,7 +42,7 @@ describe('Client Model', () => {
     });
 
     await expect(invalidClient.save()).rejects.toThrow(
-      'Clients validation failed: redirectUrl: Path `redirectUrl` is required., clientSecret: Path `clientSecret` is required., clientId: Path `clientId` is required.',
+      'Client validation failed: redirectUrl: Path `redirectUrl` is required., clientSecret: Path `clientSecret` is required., clientId: Path `clientId` is required.',
     );
   });
 
