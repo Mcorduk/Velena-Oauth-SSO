@@ -23,5 +23,5 @@ const accessTokenSchema = new Schema<accessTokenType>(
   { timestamps: true },
 );
 
-const AccessToken = mongoose.model<accessTokenType>('User', accessTokenSchema);
+const AccessToken = mongoose.model<accessTokenType>('AccessToken', accessTokenSchema);
 export default AccessToken;
