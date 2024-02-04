@@ -7,6 +7,9 @@ import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import timeout from 'connect-timeout';
 import connectToMongoDB from './config/db/mongodb'; // Adjust the path accordingly
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 import indexRouter from './api/routes/index';
 import usersRouter from './api/routes/users';
@@ -23,11 +26,9 @@ connectToMongoDB()
     process.exit(1); // Exit the process if MongoDB connection fails
   });
 
-// Security Middleware
-app.use(helmet()); // Basic security headers
+app.use(helmet());
 // FIXME Do I work as intended?
 app.use(cors());
-// Rate Limiting
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -37,20 +38,16 @@ app.use(
     message: 'Too many requests, please try again later',
   }),
 );
-// Compression
 app.use(compression());
-// HTTP Request Timeout
 app.use(timeout('30s')); // Set a 30-second timeout
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'ejs');
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.json()); // Parse JSON data first
 app.use(express.urlencoded({ extended: false })); // Parse URL-encoded data if JSON parsing fails
 app.use(logger('dev')); // Loggin middleware
-// Why use path? because otherwise it's not cross-platform. Mac and Linux => /public, on windows \public
-// app.use(express.static(path.join(__dirname, '../public'))); // sends static files such as images, js, css
 // routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
