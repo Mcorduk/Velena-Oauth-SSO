@@ -18,6 +18,8 @@
 - [ ] Consider more granular timeouts: If specific routes or API
       endpoints have known longer response times, apply timeouts selectively.
 - [ ] Understand pino a little bit better
+- [ ] Fix password tests as it will only accept hashed passwords
+- [ ] Add ip, client id, client name etc to loginAt registerAt
 
 ## Optional
 
