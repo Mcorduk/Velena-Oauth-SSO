@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import isEmail from '../utils/isEmail';
+import { isPasswordHash } from '../utils/password';
 import userType from '../types/models/userType';
 
 const userSchema = new mongoose.Schema(
@@ -14,9 +15,8 @@ const userSchema = new mongoose.Schema(
     passwordHash: {
       type: String,
       required: true,
-      minlength: 8,
       select: false,
-      trim: true,
+      validate: { validator: isPasswordHash, message: 'Invalid password hash' },
     },
     firstName: {
       type: String,
