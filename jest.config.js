@@ -1,6 +1,7 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
-  preset: '@shelf/jest-mongodb',
+  // preset: '@shelf/jest-mongodb', //For testing mongodb
+  preset: 'ts-jest',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
