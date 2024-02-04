@@ -2,7 +2,7 @@ import metaData from './metaData';
 
 interface userType extends metaData {
   email: string;
-  password: string;
+  passwordHash: string;
   firstName: string;
   lastName: string;
   isActive: boolean;
