@@ -6,7 +6,6 @@ const client = new mongoose.Schema<clientType>(
     clientId: {
       type: String,
       required: true,
-      unique: true,
     },
     clientSecret: {
       type: String,
@@ -30,4 +29,5 @@ const client = new mongoose.Schema<clientType>(
   { timestamps: true },
 );
 
-export const Client = mongoose.model('Clients', client);
+const Client = mongoose.model('Clients', client);
+export default Client;

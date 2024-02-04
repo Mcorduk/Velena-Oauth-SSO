@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
       lowercase: true,
       trim: true,
       validate: { validator: isEmail, message: 'Invalid email' },
@@ -37,4 +36,5 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const User = mongoose.model<userType>('User', userSchema);
+const User = mongoose.model<userType>('User', userSchema);
+export default User;
