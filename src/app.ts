@@ -7,9 +7,6 @@ import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import timeout from 'connect-timeout';
 import connectToMongoDB from './config/db/mongodb'; // Adjust the path accordingly
-const session = require('express-session');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 
 import indexRouter from './api/routes/index';
 import usersRouter from './api/routes/users';
@@ -40,14 +37,10 @@ app.use(
 );
 app.use(compression());
 app.use(timeout('30s')); // Set a 30-second timeout
-
-app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use(express.json()); // Parse JSON data first
 app.use(express.urlencoded({ extended: false })); // Parse URL-encoded data if JSON parsing fails
 app.use(logger('dev')); // Loggin middleware
+
 // routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -56,7 +49,6 @@ app.use('/users', usersRouter);
 app.use((req: Request, res: Response, next: NextFunction) => {
   next(createError(404, 'Not Found'));
 });
-
 // error handler
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   // set locals, only providing error in development
