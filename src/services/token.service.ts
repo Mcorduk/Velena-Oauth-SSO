@@ -1,16 +1,45 @@
-import { JwtService } from '@nestjs/jwt'; // Assuming using a JWT library
+import jwt from 'jsonwebtoken';
 import RefreshToken from '../models/refreshToken.model';
-import { generateAccessToken, generateRefreshToken } from '../utils/token'; // Assuming token generation utilities
+import refreshTokenType from '../types/models/refreshTokenType';
+
+export class JwtService {
+  private readonly secretKey: string;
+
+  constructor(secretKey: string) {
+    this.secretKey = secretKey;
+  }
+
+  generateAccessToken(userId: string, clientId: string, scopes: string[]): string {
+    const payload = { userId, clientId, scopes };
+    return jwt.sign(payload, this.secretKey, { expiresIn: '1h' });
+  }
+
+  generateRefreshToken(userId: string, clientId: string, scopes: string[]): refreshTokenType {
+    const refreshToken = new RefreshToken({ userId, clientId, scopes });
+    refreshToken.save();
+    return refreshToken;
+  }
+
+  verifyAccessToken(token: string): any | null {
+    try {
+      return jwt.verify(token, this.secretKey);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  // Add more methods as needed (revoke tokens, etc.)
+}
 
 export class TokenService {
   constructor(private readonly jwtService: JwtService) {}
 
   async generateAccessToken(userId: string, clientId: string, scopes: string[]): Promise<string> {
     const payload = { userId, clientId, scopes };
-    return this.jwtService.sign(payload);
+    return jwt.sign(payload, 'your-secret-key', { expiresIn: '1h' });
   }
 
-  async generateRefreshToken(userId: string, clientId: string, scopes: string[]): Promise<RefreshToken> {
+  async generateRefreshToken(userId: string, clientId: string, scopes: string[]): Promise<refreshTokenType> {
     const refreshToken = new RefreshToken({ userId, clientId, scopes });
     await refreshToken.save();
     return refreshToken;
@@ -18,7 +47,7 @@ export class TokenService {
 
   async verifyAccessToken(token: string): Promise<any | null> {
     try {
-      return this.jwtService.verify(token);
+      return jwt.verify(token, 'your-secret-key');
     } catch (error) {
       return null;
     }
