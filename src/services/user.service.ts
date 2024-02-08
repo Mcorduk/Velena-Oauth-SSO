@@ -1,5 +1,5 @@
 import User from '../models/user.model';
-import userType from '../types/models/userType';
+import userType from '../types/models/user.type';
 import { generatePasswordHash, validatePassword } from '../utils/password';
 
 /**

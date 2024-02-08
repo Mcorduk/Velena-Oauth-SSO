@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import isEmail from '../utils/isEmail';
 import { isPasswordHash } from '../utils/password';
-import userType from '../types/models/userType';
+import userType from '../types/models/user.type';
 
 const userSchema = new mongoose.Schema(
   {

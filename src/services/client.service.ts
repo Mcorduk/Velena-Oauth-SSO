@@ -1,5 +1,5 @@
 import Client from '../models/client.model';
-import clientType from '../types/models/clientType';
+import clientType from '../types/models/client.type';
 import { generateClientId, generateClientSecret } from '../utils/crypto';
 
 export class ClientService {
@@ -14,6 +14,4 @@ export class ClientService {
   async findClientById(clientId: string): Promise<clientType | null> {
     return Client.findById(clientId);
   }
-
-  // Add more methods as needed (update client, delete client, etc.)
 }
