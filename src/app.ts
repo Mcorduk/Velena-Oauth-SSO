@@ -13,23 +13,22 @@ import usersRouter from './api/routes/users';
 
 const app = express();
 
-// FIXME make me async await
-connectToMongoDB()
-  .then(() => {
+(async () => {
+  try {
+    await connectToMongoDB();
     console.log('Connected to MongoDB');
-  })
-  .catch((error) => {
+  } catch (error) {
     console.error('Error connecting to MongoDB:', error);
-    process.exit(1); // Exit the process if MongoDB connection fails
-  });
+    process.exit(1);
+  }
+})();
 
 app.use(helmet());
-// FIXME Do I work as intended?
 app.use(cors());
 app.use(
   rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Allow 100 requests per window
+    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS ?? '60000'),
+    max: parseInt(process.env.RATE_LIMIT_MAX ?? '100'),
     standardHeaders: true, // Use standard rate limiting headers
     legacyHeaders: false, // Disable deprecated headers
     message: 'Too many requests, please try again later',
