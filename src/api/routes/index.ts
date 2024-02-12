@@ -1,14 +1,13 @@
 import express, { NextFunction, Request, Response, Router } from 'express';
-
+import * as auth from './auth';
+import * as me from './me';
+import * as oauth from './oauth2';
 const router: Router = express.Router();
 
-// GET home page
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    res.render('index', { title: 'Express' });
-  } catch (error) {
-    next(error); // Pass errors to error handling middleware
-  }
-});
+export const router = express.Router();
+
+router.use('/api/auth', auth.router);
+router.use('/api/me', me.router);
+router.use('/api/oauth', oauth.router);
 
 export default router;
