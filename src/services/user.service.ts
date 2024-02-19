@@ -1,6 +1,7 @@
 import User from '../models/user.model';
 import userType from '../types/models/user.type';
 import { generatePasswordHash, validatePassword } from '../utils/password';
+import mongoose from 'mongoose';
 
 /**
  * Service class for managing user operations.
@@ -43,6 +44,22 @@ export class UserService {
    */
   async findUserById(userId: string): Promise<userType | null> {
     return User.findById(userId);
+  }
+
+  async updateUserById(userId: string, update: Partial<userType>): Promise<userType | null> {
+    const modifiedUser = await User.findByIdAndUpdate(userId, update, { new: true });
+    if (!modifiedUser) {
+      return null;
+    }
+    return modifiedUser;
+  }
+
+  async removeUserById(userId: string): Promise<userType | null> {
+    const removedUser = await User.findByIdAndDelete(userId);
+    if (!removedUser) {
+      return null;
+    }
+    return removedUser;
   }
 
   // Add update user, delete user, etc.
