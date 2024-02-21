@@ -14,4 +14,12 @@ export class ClientService {
   async findClientById(clientId: string): Promise<clientType | null> {
     return Client.findById(clientId);
   }
+
+  async updateClientById(clientId: string, update: Partial<clientType>): Promise<clientType | null> {
+    return Client.findByIdAndUpdate(clientId, update, { new: true });
+  }
+
+  async deleteClientById(clientId: string): Promise<clientType | null> {
+    return Client.findByIdAndDelete(clientId);
+  }
 }
