@@ -6,10 +6,8 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import timeout from 'connect-timeout';
-import connectToMongoDB from './config/db/mongodb'; // Adjust the path accordingly
-
+import connectToMongoDB from './config/db/mongodb';
 import indexRouter from './api/routes/index';
-import usersRouter from './api/routes/users';
 
 const app = express();
 
@@ -42,7 +40,6 @@ app.use(logger('dev')); // Loggin middleware
 
 // routers
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
