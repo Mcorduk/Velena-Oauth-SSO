@@ -46,6 +46,12 @@ export class UserService {
     return User.findById(userId);
   }
 
+  /**
+   * Updates a user by their ID.
+   * @param {string} userId - The ID of the user to update.
+   * @param {Partial<userType>} update - The partial user object containing the fields to update.
+   * @returns {Promise<userType | null>} - A promise that resolves to the updated user object, or null if the user was not found.
+   */
   async updateUserById(userId: string, update: Partial<userType>): Promise<userType | null> {
     const modifiedUser = await User.findByIdAndUpdate(userId, update, { new: true });
     if (!modifiedUser) {
@@ -54,6 +60,11 @@ export class UserService {
     return modifiedUser;
   }
 
+  /**
+   * Removes a user by their ID.
+   * @param userId The ID of the user to remove.
+   * @returns A Promise that resolves to the removed user, or null if the user was not found.
+   */
   async removeUserById(userId: string): Promise<userType | null> {
     const removedUser = await User.findByIdAndDelete(userId);
     if (!removedUser) {
